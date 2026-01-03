@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>1c18001d-9a30-41b8-87a1-822b9d849fbf</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Restaurant.Identification.Application\Restaurant.Identification.Application.csproj" />
+    <ProjectReference Include="..\Restaurant.Identification.Data\Restaurant.Identification.Data.csproj" />
+    <ProjectReference Include="..\Restaurant.Identification.ExternalServices\Restaurant.Identification.ExternalServices.csproj" />
+    <ProjectReference Include="..\Restaurant.Identification.Facade\Restaurant.Identification.Facade.csproj" />
+    <ProjectReference Include="..\Restaurant.Identification.Model\Restaurant.Identification.Model.csproj" />
+    <ProjectReference Include="..\Restaurant.Identification.Presenter\Restaurant.Identification.Presenter.csproj" />
+  </ItemGroup>
+
+</Project>

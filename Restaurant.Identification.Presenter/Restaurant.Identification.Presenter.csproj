@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Restaurant.Identification.Application\Restaurant.Identification.Application.csproj" />
+    <ProjectReference Include="..\Restaurant.Identification.Data\Restaurant.Identification.Data.csproj" />
+  </ItemGroup>
+
+</Project>
