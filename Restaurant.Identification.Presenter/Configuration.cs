@@ -11,6 +11,7 @@ public static class Configuration
     public static IServiceCollection AddPresenter(this IServiceCollection services)
     {
         services.AddAutoMapper(thisAssembly);
+        services.AddSingleton(thisAssembly, "Presenter");
 
         return services;
     }

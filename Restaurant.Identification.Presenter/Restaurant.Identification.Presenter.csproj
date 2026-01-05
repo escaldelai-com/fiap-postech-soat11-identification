@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Restaurant.Identification.Application\Restaurant.Identification.Application.csproj" />
     <ProjectReference Include="..\Restaurant.Identification.Data\Restaurant.Identification.Data.csproj" />
   </ItemGroup>

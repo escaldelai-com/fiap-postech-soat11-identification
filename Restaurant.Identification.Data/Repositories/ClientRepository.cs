@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Restaurant.Identification.Application.DTO;
+using Restaurant.Identification.Application.Interfaces.Cache;
 using Restaurant.Identification.Application.Interfaces.Repository;
 using Restaurant.Identification.Data.Model;
 
@@ -9,6 +10,7 @@ namespace Restaurant.Identification.Data.Repositories;
 
 public class ClientRepository(
     IMapper mapper,
+    IClientCache cache,
     IMongoDatabase context) : IClientRepository
 {
 
@@ -18,20 +20,36 @@ public class ClientRepository(
 
     public async Task<ClientDto?> GetByCpf(string cpf)
     {
+        var dto = await cache.GetByCpf(cpf);
+
+        if (dto != null)
+            return dto;
+
         var data = await collection
             .Find(c => c.CPF == cpf)
             .FirstOrDefaultAsync();
 
-        return mapper.Map<ClientDto>(data);
+        dto = mapper.Map<ClientDto>(data);
+        await cache.Set(dto);
+
+        return dto;
     }
 
     public async Task<ClientDto?> GetById(string id)
     {
+        var dto = await cache.GetById(id);
+
+        if (dto != null)
+            return dto;
+
         var data = await collection
             .Find(c => c.Id == id)
             .FirstOrDefaultAsync();
 
-        return mapper.Map<ClientDto>(data);
+        dto = mapper.Map<ClientDto>(data);
+        await cache.Set(dto);
+
+        return dto;
     }
 
     public async Task<IEnumerable<ClientDto>> GetList()
