@@ -28,7 +28,7 @@ public class ClientRepository(
     public async Task<ClientDto?> GetById(string id)
     {
         var data = await collection
-            .Find(c => c.Id == new ObjectId(id))
+            .Find(c => c.Id == id)
             .FirstOrDefaultAsync();
 
         return mapper.Map<ClientDto>(data);
@@ -38,6 +38,18 @@ public class ClientRepository(
     {
         var data = await collection
             .Find(_ => true)
+            .ToListAsync();
+
+        return mapper.Map<IEnumerable<ClientDto>>(data);
+    }
+
+    public async Task<IEnumerable<ClientDto>> GetList(IEnumerable<string> ids)
+    {
+        var filter = Builders<ClientData>.Filter
+            .In(x => x.Id, ids);
+
+        var data = await collection
+            .Find(filter)
             .ToListAsync();
 
         return mapper.Map<IEnumerable<ClientDto>>(data);

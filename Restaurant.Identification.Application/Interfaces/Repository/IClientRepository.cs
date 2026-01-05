@@ -11,6 +11,8 @@ public interface IClientRepository
 
     Task<IEnumerable<ClientDto>> GetList();
 
+    Task<IEnumerable<ClientDto>> GetList(IEnumerable<string> ids);
+
     Task<string> Save(ClientDto client);
 
 }

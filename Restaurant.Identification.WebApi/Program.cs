@@ -2,6 +2,7 @@ using Restaurant.Identification.Application;
 using Restaurant.Identification.Data;
 using Restaurant.Identification.Facade;
 using Restaurant.Identification.Presenter;
+using Restaurant.Identification.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseErrorHandler();
 app.MapControllers();
 
 

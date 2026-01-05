@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Restaurant.Identification.Application\Restaurant.Identification.Application.csproj" />
     <ProjectReference Include="..\Restaurant.Identification.Data\Restaurant.Identification.Data.csproj" />
-    <ProjectReference Include="..\Restaurant.Identification.ExternalServices\Restaurant.Identification.ExternalServices.csproj" />
     <ProjectReference Include="..\Restaurant.Identification.Facade\Restaurant.Identification.Facade.csproj" />
     <ProjectReference Include="..\Restaurant.Identification.Model\Restaurant.Identification.Model.csproj" />
     <ProjectReference Include="..\Restaurant.Identification.Presenter\Restaurant.Identification.Presenter.csproj" />

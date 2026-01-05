@@ -22,21 +22,33 @@ public class ClientController(
 
     [HttpGet("list")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ClientDto>))]
-    public async Task<IActionResult> GetList()
+    public async Task<IActionResult> GetList([FromQuery]IEnumerable<string> id)
     {
-        var result = await facade.GetClientList();
+        var result = await facade.GetClientList(id);
 
         return result != null
             ? Ok(result)
             : NotFound();
     }
 
-    [HttpGet("{cpf}")]
+    [HttpGet("cpf/{cpf}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(ClientDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ClientDto))]
     public async Task<IActionResult> GetIdentify(string cpf)
     {
         var result = await facade.GetClientIdentify(cpf);
+
+        return result != null 
+            ? Ok(result)
+            : NotFound();
+    }
+
+    [HttpGet("id/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(ClientDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ClientDto))]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var result = await facade.GetById(id);
 
         return result != null 
             ? Ok(result)

@@ -25,14 +25,24 @@ public class ClientFacade(
     }
 
     /// <summary>
+    /// Busca Cliente por Id
+    /// </summary>
+    public async Task<ClientDto?> GetById(string id)
+    {
+        return await repo.GetById(id);
+    }
+
+    /// <summary>
     /// CMD: Gera Lista de Clientes
     /// </summary>
     /// <returns>
     /// EV: Lista de clientes gerada
     /// </returns>
-    public async Task<IEnumerable<ClientDto>> GetClientList()
+    public async Task<IEnumerable<ClientDto>> GetClientList(IEnumerable<string> ids)
     {
-        return await repo.GetList();
+        return ids.Any()
+            ? await repo.GetList(ids)
+            : await repo.GetList();
     }
 
     /// <summary>

@@ -7,11 +7,13 @@
   </Folder>
   <Folder Name="/adapters/output/">
     <Project Path="Restaurant.Identification.Data/Restaurant.Identification.Data.csproj" Id="375ad51d-ee0e-4632-802e-efbf970b4ae8" />
-    <Project Path="Restaurant.Identification.ExternalServices/Restaurant.Identification.ExternalServices.csproj" Id="2df1e890-0034-42e8-965a-ce6f6c488b8e" />
   </Folder>
   <Folder Name="/core/">
     <Project Path="Restaurant.Identification.Application/Restaurant.Identification.Application.csproj" Id="73ef7abc-7448-4faf-a243-24febf6cbe74" />
     <Project Path="Restaurant.Identification.Model/Restaurant.Identification.Model.csproj" Id="5f1ec88f-3352-4c45-a05e-1384b84255ff" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="Restaurant.Identification.Application.Test/Restaurant.Identification.Application.Test.csproj" Id="af798480-ef5f-45ba-9268-cf85ef3e6646" />
