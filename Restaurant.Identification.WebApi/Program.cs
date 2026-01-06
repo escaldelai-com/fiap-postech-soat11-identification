@@ -14,6 +14,8 @@ builder.Services
     .AddData()
     .AddApplication()
     .AddFacade()
+    .AddAuthentication(builder.Configuration)
+    .AddRestaurantAuthorization()
     .AddOpenApi();
 
 

@@ -27,6 +27,7 @@ public class ErrorMiddleware(
         {
             ArgumentException ex => ((int)HttpStatusCode.BadRequest, "Argumento inválido", ex.Message),
             ValidationException ex => ((int)HttpStatusCode.BadRequest, "Erro de validação", ex.Message),
+            NotAuthorizedException ex => ((int)HttpStatusCode.Unauthorized, "Não autorizado", ex.Message),
             _ => ((int)HttpStatusCode.InternalServerError, "Ocorreu um erro ao processar a solicitação, tente novamente mais tarde.", null)
         };
 

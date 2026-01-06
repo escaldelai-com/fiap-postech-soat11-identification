@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Restaurant.Identification.Application.DTO;
 using Restaurant.Identification.Application.Interfaces.Facade;
+using Restaurant.Identification.WebApi.Security;
 
 namespace Restaurant.Identification.WebApi.Controllers;
 
@@ -10,6 +11,7 @@ public class ClientController(
 {
 
     [HttpGet]
+    [AuthorizeClient]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientDto))]
     public async Task<IActionResult> GetNoIdentify()
     {
@@ -21,6 +23,7 @@ public class ClientController(
     }
 
     [HttpGet("list")]
+    [AuthorizeAdmin]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ClientDto>))]
     public async Task<IActionResult> GetList([FromQuery]IEnumerable<string> id)
     {
@@ -32,6 +35,7 @@ public class ClientController(
     }
 
     [HttpGet("cpf/{cpf}")]
+    [AuthorizeClient]
     [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(ClientDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ClientDto))]
     public async Task<IActionResult> GetIdentify(string cpf)
@@ -44,6 +48,7 @@ public class ClientController(
     }
 
     [HttpGet("id/{id}")]
+    [AuthorizeClient]
     [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(ClientDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ClientDto))]
     public async Task<IActionResult> GetById(string id)
@@ -56,6 +61,7 @@ public class ClientController(
     }
 
     [HttpPost]
+    [AuthorizeClient]
     [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(string))]
     public async Task<IActionResult> PostRegister([FromBody] ClientDto client)
     {

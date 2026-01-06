@@ -79,7 +79,7 @@ public class ClientRepository(
 
         await collection.InsertOneAsync(data);
 
-        return data.Id.ToString();
+        return data.Id!.ToString();
     }
 
 }

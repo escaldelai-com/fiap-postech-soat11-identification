@@ -14,4 +14,6 @@ public abstract class TestBase
             .Replace("-", "");
     }
 
+    protected string GetGuid() => Guid.NewGuid().ToString("n");
+
 }
