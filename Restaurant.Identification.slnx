@@ -13,7 +13,29 @@
     <Project Path="Restaurant.Identification.Model/Restaurant.Identification.Model.csproj" Id="5f1ec88f-3352-4c45-a05e-1384b84255ff" />
   </Folder>
   <Folder Name="/Solution Items/">
+    <File Path="LICENSE" />
     <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/kubernetes/">
+    <File Path="init-k8s.cmd" />
+  </Folder>
+  <Folder Name="/Solution Items/kubernetes/app/">
+    <File Path="app-id-ingress.yaml" />
+    <File Path="app-id-secrets.yaml" />
+    <File Path="app-id-service.yaml" />
+    <File Path="app-id.yaml" />
+    <File Path="Dockerfile" />
+  </Folder>
+  <Folder Name="/Solution Items/kubernetes/mongodb/">
+    <File Path="mongo-id-configmap.yaml" />
+    <File Path="mongo-id-secrets.yaml" />
+    <File Path="mongo-id-service.yaml" />
+    <File Path="mongo-id.yaml" />
+  </Folder>
+  <Folder Name="/Solution Items/kubernetes/redis/">
+    <File Path="redis-id-secrets.yaml" />
+    <File Path="redis-id-service.yaml" />
+    <File Path="redis-id.yaml" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="Restaurant.Identification.Application.Test/Restaurant.Identification.Application.Test.csproj" Id="af798480-ef5f-45ba-9268-cf85ef3e6646" />

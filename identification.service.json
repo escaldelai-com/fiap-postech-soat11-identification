@@ -1,0 +1,78 @@
+[{
+  "_id": {
+    "$oid": "695c0352cd96dd73bf945211"
+  },
+  "Name": "client",
+  "Secret": "/In7Ydez2W9RjRdn+qnEM3vH42IyAcxpRyBWDE1dEZo=",
+  "Audiences": [
+    "identification",
+    "order"
+  ],
+  "Roles": [
+    "identification:client:get-no-identify",
+    "identification:client:get-identify",
+    "identification:client:get-by-id",
+    "identification:client:register",
+    "order:order:create",
+    "order:order:add-item",
+    "order:order:confirm",
+    "order:order:cancel",
+    "order:order:confirm-payment",
+    "order:product:get",
+    "order:product:get-by-type",
+    "order:product:get-list"
+  ]
+},
+{
+  "_id": {
+    "$oid": "695c0352cd96dd73bf945212"
+  },
+  "Name": "kitchen",
+  "Secret": "gPdyYn9BJMKCXCuCSun6HhZKKZ7FBE//wP9EbYPywfM=",
+  "Audiences": [
+    "identification",
+    "preparation"
+  ],
+  "Roles": [
+    "identification:client:get-by-id",
+    "preparation:order:get-waiting",
+    "preparation:order:confirm",
+    "preparation:order:prepare",
+    "preparation:order:delivery",
+    "preparation:order:finalize"
+  ]
+},
+{
+  "_id": {
+    "$oid": "695c0352cd96dd73bf945213"
+  },
+  "Name": "payment",
+  "Secret": "QXdRMZK0un/AF0UAcRQPLmtpKq1ORgWipHnkyd3iJZU=",
+  "Audiences": [
+    "identification",
+    "payment",
+    "order",
+    "preparation"
+  ],
+  "Roles": [
+    "identification:client:get-by-id",
+    "order:order:confirm-payment",
+    "preparation:order:confirm"
+  ]
+},
+{
+  "_id": {
+    "$oid": "695c0352cd96dd73bf945214"
+  },
+  "Name": "admin",
+  "Secret": "2jmwxtYRgS3zI3q7SRzVGYdwnBbXIxRrvjjCy2rbnGA=",
+  "Audiences": [
+    "identification",
+    "payment",
+    "order",
+    "preparation"
+  ],
+  "Roles": [
+    "admin"
+  ]
+}]

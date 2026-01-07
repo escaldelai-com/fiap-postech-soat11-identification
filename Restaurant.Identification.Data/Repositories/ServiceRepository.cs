@@ -16,7 +16,7 @@ public class ServiceRepository(
     private readonly IMongoCollection<ServiceData> collection =
         context.GetCollection<ServiceData>("service");
 
-    public async Task<ServiceDto> Get(string serviceId)
+    public async Task<ServiceDto?> Get(string serviceId)
     {
         var dto = await cache.Get(serviceId);
 
@@ -26,6 +26,9 @@ public class ServiceRepository(
         var data = await collection
             .Find(c => c.Id == serviceId)
             .FirstOrDefaultAsync();
+
+        if (data == null)
+            return null;
 
         dto = mapper.Map<ServiceDto>(data);
         await cache.Set(dto);
