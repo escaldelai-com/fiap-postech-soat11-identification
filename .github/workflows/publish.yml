@@ -36,7 +36,7 @@ jobs:
       - name: Configure AWS credentials for ECR (OIDC)
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }} # role que tem permissão para ECR
+          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }} # role que tem permissï¿½o para ECR
           aws-region: ${{ env.REGION }}
 
       - name: Login to Amazon ECR
@@ -49,6 +49,15 @@ jobs:
 
       - name: Push image to ECR
         run: docker push ${{ env.ECR }}/${{ env.IMAGE }}:${{ env.TAG }}
+  apply-kubernetes-manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
+          aws-region: ${{ env.REGION }}
+          role-session-name: github-actions
 
   apply-kubernetes-manifests:
     needs: build-and-publish-to-ecr
@@ -60,7 +69,7 @@ jobs:
       - name: Configure AWS credentials for EKS (OIDC)
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }} # role que tem permissão para EKS/kubectl
+          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }} # role que tem permissï¿½o para EKS/kubectl
           aws-region: ${{ env.REGION }}
 
       - name: Debug caller identity (opcional, remove depois)
@@ -71,7 +80,7 @@ jobs:
 
       - name: Configure kubectl context
         run: |
-          # NÃO passe --role-arn aqui se já assumiu o role acima — isto evita role chaining (AssumeRole dentro de uma sessão assumida)
+          # Nï¿½O passe --role-arn aqui se jï¿½ assumiu o role acima ï¿½ isto evita role chaining (AssumeRole dentro de uma sessï¿½o assumida)
           aws eks update-kubeconfig --region ${{ env.REGION }} --name ${{ env.CLUSTER }}
 
       - name: Apply Kubernetes manifests
