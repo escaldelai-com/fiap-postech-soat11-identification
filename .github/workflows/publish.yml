@@ -60,7 +60,7 @@ jobs:
       - name: Configure AWS credentials for EKS (OIDC)
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }} # role que tem permiss�o para EKS/kubectl
+          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
           aws-region: ${{ env.REGION }}
 
       - name: Debug caller identity (opcional, remove depois)
@@ -71,6 +71,9 @@ jobs:
 
       - name: Configure kubectl context
         run: aws eks update-kubeconfig --region ${{ env.REGION }} --name ${{ env.CLUSTER }}
+
+      - name: Test kubectl context
+        run: aws eks get-token --cluster-name ${{ env.CLUSTER }} --region ${{ env.REGION }} --output json
 
       - name: Apply Kubernetes manifests
         run: |
