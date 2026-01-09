@@ -1,3 +1,4 @@
+# Workflow to build the solution and run tests on the 'develop' branch
 name: Build Solution and Run Tests
 
 on:
