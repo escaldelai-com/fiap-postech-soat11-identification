@@ -11,10 +11,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      ECR_REGION: sa-east-1
-      ECR_ACCOUNT_ID: 210450948776
-      IMAGE_NAME: restaurant-identification
-      KUBE_CLUSTER_NAME: restaurante-eks-cluster
+      REGION: sa-east-1
+      ECR: 210450948776.dkr.ecr.sa-east-1.amazonaws.com
+      IMAGE: restaurante-identification
+      TAG: latest
+      CLUSTER: restaurante-eks-cluster
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,28 +35,25 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
-          aws-region: ${{ env.ECR_REGION }}
+          aws-region: ${{ env.REGION }}
           role-session-name: github-actions
 
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
         with:
-          region: ${{ env.ECR_REGION }}
+          region: ${{ env.REGION }}
 
       - name: Build Docker image
-        run: docker build --pull --file Dockerfile --tag ${{ env.IMAGE_NAME }}:latest .
-
-      - name: Tag image for ECR
-        run: docker tag ${{ env.IMAGE_NAME }}:latest ${{ env.ECR_ACCOUNT_ID }}.dkr.ecr.${{ env.ECR_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:latest
+        run: docker build --tag ${{ env.ECR }}/${{ env.IMAGE }}:${{ env.TAG }} .
 
       - name: Push image to ECR
-        run: docker push ${{ env.ECR_ACCOUNT_ID }}.dkr.ecr.${{ env.ECR_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:latest
+        run: docker push ${{ env.ECR }}/${{ env.IMAGE }}:${{ env.TAG }}
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
 
       - name: Configure kubectl context
-        run: aws eks update-kubeconfig --region ${{ env.ECR_REGION }} --name ${{ env.KUBE_CLUSTER_NAME }} --role-arn ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
+        run: aws eks update-kubeconfig --region ${{ env.REGION }} --name ${{ env.CLUSTER }} --role-arn ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
 
       - name: Apply Kubernetes manifests
         run: |
