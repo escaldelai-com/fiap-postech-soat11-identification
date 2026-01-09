@@ -36,7 +36,7 @@ jobs:
       - name: Configure AWS credentials for ECR (OIDC)
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
+          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }} # role que tem permiss�o para ECR
           aws-region: ${{ env.REGION }}
 
       - name: Login to Amazon ECR
@@ -61,6 +61,22 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
+          aws-region: ${{ env.REGION }}
+
+      - name: Debug caller identity (opcional, remove depois)
+        run: aws sts get-caller-identity
+
+  apply-kubernetes-manifests:
+    needs: build-and-publish-to-ecr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials for EKS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }} # role que tem permiss�o para EKS/kubectl
           aws-region: ${{ env.REGION }}
 
       - name: Debug caller identity (opcional, remove depois)
