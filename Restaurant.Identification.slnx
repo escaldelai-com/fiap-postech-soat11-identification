@@ -22,6 +22,7 @@
   </Folder>
   <Folder Name="/Solution Items/kubernetes/">
     <File Path="init-k8s.cmd" />
+    <File Path="storage-class.yaml" />
   </Folder>
   <Folder Name="/Solution Items/kubernetes/app/">
     <File Path="app-id-ingress.yaml" />
