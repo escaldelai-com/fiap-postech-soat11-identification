@@ -54,8 +54,6 @@ jobs:
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
-        with:
-          version: '1.34.0'
 
       - name: Configure kubectl context
         run: aws eks update-kubeconfig --region ${{ env.ECR_REGION }} --name ${{ env.KUBE_CLUSTER_NAME }} --role-arn ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
