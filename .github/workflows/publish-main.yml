@@ -1,0 +1,79 @@
+name: Publish on Main
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      ECR_REGION: sa-east-1
+      ECR_ACCOUNT_ID: 210450948776
+      ECR_REPOSITORY: soat11escaldelai-restaurante-ecr
+      IMAGE_NAME: restaurant-identification
+      KUBE_CLUSTER_NAME: restaurante-eks-cluster
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore Restaurant.Identification.WebApi/Restaurant.Identification.WebApi.csproj
+
+      - name: Publish Web API project
+        run: dotnet publish Restaurant.Identification.WebApi/Restaurant.Identification.WebApi.csproj --configuration Release --no-restore --output ./dist
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
+          aws-region: ${{ env.ECR_REGION }}
+          role-session-name: github-actions
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: ${{ env.ECR_REGION }}
+
+      - name: Build Docker image
+        run: docker build --pull --file Dockerfile --tag ${{ env.IMAGE_NAME }}:latest .
+
+      - name: Tag image for ECR
+        run: docker tag ${{ env.IMAGE_NAME }}:latest ${{ env.ECR_ACCOUNT_ID }}.dkr.ecr.${{ env.ECR_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+
+      - name: Push image to ECR
+        run: docker push ${{ env.ECR_ACCOUNT_ID }}.dkr.ecr.${{ env.ECR_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: '1.34.0'
+
+      - name: Configure kubectl context
+        run: aws eks update-kubeconfig --region ${{ env.ECR_REGION }} --name ${{ env.KUBE_CLUSTER_NAME }} --role-arn ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f ./redis-id-service.yaml
+          kubectl apply -f ./redis-id-secrets.yaml
+          kubectl apply -f ./redis-id.yaml
+          kubectl apply -f ./mongo-id-service.yaml
+          kubectl apply -f ./mongo-id-secrets.yaml
+          kubectl apply -f ./mongo-id-configmap.yaml
+          kubectl apply -f ./mongo-id.yaml
+          kubectl apply -f ./app-id-service.yaml
+          kubectl apply -f ./app-id-secrets.yaml
+          kubectl apply -f ./app-id-ingress.yaml
+          kubectl apply -f ./app-id.yaml
+
+      - name: Restart Kubernetes deployments
+        run: kubectl rollout restart deployment app-id
