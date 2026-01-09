@@ -32,27 +32,28 @@ spec:
                   name: mongo-id-credentials
                   key: password
           volumeMounts:
-            - name: mongo-id-data
-              mountPath: /data/db
+            # - name: mongo-id-data
+            #   mountPath: /data/db
             - name: mongo-init-scripts
               mountPath: /docker-entrypoint-initdb.d
           resources:
             requests:
               cpu: 150m
-              memory: 256Mi
+              memory: 80Mi
             limits:
               cpu: 400m
-              memory: 512Mi
+              memory: 256Mi
       volumes:
         - name: mongo-init-scripts
           configMap:
             name: mongo-id-init-scripts
-  volumeClaimTemplates:
-    - metadata:
-        name: mongo-id-data
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 5Gi
+  # volumeClaimTemplates:
+  #   - metadata:
+  #       name: mongo-id-data
+  #     spec:
+  #       accessModes:
+  #         - ReadWriteOnce
+  #       storageClassName: gp2
+  #       resources:
+  #         requests:
+  #           storage: 5Gi

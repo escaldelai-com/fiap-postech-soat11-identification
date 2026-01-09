@@ -1,5 +1,8 @@
 @echo off
 
+REM -- Storage Class
+kubectl apply -f storage-class.yaml
+
 REM -- Redis
 kubectl apply -f redis-id-service.yaml
 kubectl apply -f redis-id-secrets.yaml
