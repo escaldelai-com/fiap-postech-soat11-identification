@@ -1,0 +1,48 @@
+<Solution>
+  <Folder Name="/adapters/" />
+  <Folder Name="/adapters/input/">
+    <Project Path="Restaurant.Identification.Facade/Restaurant.Identification.Facade.csproj" Id="1f2b0d9b-06aa-422a-b3ec-f400884b0aab" />
+    <Project Path="Restaurant.Identification.Presenter/Restaurant.Identification.Presenter.csproj" Id="fde5813a-0852-48e2-9e23-e72ee1c3f492" />
+    <Project Path="Restaurant.Identification.WebApi/Restaurant.Identification.WebApi.csproj" Id="c9c2142f-0d24-401d-9fb7-013265f203c9" />
+  </Folder>
+  <Folder Name="/adapters/output/">
+    <Project Path="Restaurant.Identification.Data/Restaurant.Identification.Data.csproj" Id="375ad51d-ee0e-4632-802e-efbf970b4ae8" />
+  </Folder>
+  <Folder Name="/core/">
+    <Project Path="Restaurant.Identification.Application/Restaurant.Identification.Application.csproj" Id="73ef7abc-7448-4faf-a243-24febf6cbe74" />
+    <Project Path="Restaurant.Identification.Model/Restaurant.Identification.Model.csproj" Id="5f1ec88f-3352-4c45-a05e-1384b84255ff" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/github-workflows/">
+    <File Path=".github/workflows/build-and-test.yml" />
+    <File Path=".github/workflows/publish.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/kubernetes/">
+    <File Path="init-k8s.cmd" />
+  </Folder>
+  <Folder Name="/Solution Items/kubernetes/app/">
+    <File Path="app-id-ingress.yaml" />
+    <File Path="app-id-secrets.yaml" />
+    <File Path="app-id-service.yaml" />
+    <File Path="app-id.yaml" />
+    <File Path="Dockerfile" />
+  </Folder>
+  <Folder Name="/Solution Items/kubernetes/mongodb/">
+    <File Path="mongo-id-configmap.yaml" />
+    <File Path="mongo-id-secrets.yaml" />
+    <File Path="mongo-id-service.yaml" />
+    <File Path="mongo-id.yaml" />
+  </Folder>
+  <Folder Name="/Solution Items/kubernetes/redis/">
+    <File Path="redis-id-secrets.yaml" />
+    <File Path="redis-id-service.yaml" />
+    <File Path="redis-id.yaml" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="Restaurant.Identification.Application.Test/Restaurant.Identification.Application.Test.csproj" Id="af798480-ef5f-45ba-9268-cf85ef3e6646" />
+    <Project Path="Restaurant.Identification.Model.Test/Restaurant.Identification.Model.Test.csproj" Id="e2300707-8370-4ecd-85d6-eab51614bfba" />
+  </Folder>
+</Solution>

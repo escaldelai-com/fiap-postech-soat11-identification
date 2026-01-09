@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-id
+  labels:
+    app: app-id
+spec:
+  template:
+    metadata:
+      labels:
+        app: app-id
+    spec:
+      containers:
+        - name: app-id
+          image: restaurant-identification:1.0.0
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "80"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-id-credentials
+                  key: password
+            - name: ConnectionStrings__redis
+              value: "redis-id:6379,password=$(REDIS_PASSWORD)"
+            - name: MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-id-credentials
+                  key: username
+            - name: MONGODB_PASSWORD 
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-id-credentials
+                  key: password
+            - name: ConnectionStrings__MongoDb
+              value: "mongodb://$(MONGODB_USERNAME):$(MONGODB_PASSWORD)@mongo-id:27017"
+            - name: Security__PublicKey
+              valueFrom:
+                secretKeyRef:
+                  name: id-keys
+                  key: public
+            - name: Security__PrivateKey
+              valueFrom:
+                secretKeyRef:
+                  name: id-keys
+                  key: private
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+  selector:
+    matchLabels:
+      app: app-id
+  replicas: 2

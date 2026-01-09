@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo-id
+  labels:
+    app: mongo-id
+spec:
+  serviceName: mongo-id-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-id
+  template:
+    metadata:
+      labels:
+        app: mongo-id
+    spec:
+      containers:
+        - name: mongo-id
+          image: mongo:7.0
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-id-credentials
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-id-credentials
+                  key: password
+          volumeMounts:
+            - name: mongo-id-data
+              mountPath: /data/db
+            - name: mongo-init-scripts
+              mountPath: /docker-entrypoint-initdb.d
+          resources:
+            requests:
+              cpu: 150m
+              memory: 256Mi
+            limits:
+              cpu: 400m
+              memory: 512Mi
+      volumes:
+        - name: mongo-init-scripts
+          configMap:
+            name: mongo-id-init-scripts
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-id-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
