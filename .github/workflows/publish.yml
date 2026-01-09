@@ -72,6 +72,9 @@ jobs:
       - name: Configure kubectl context
         run: aws eks update-kubeconfig --region ${{ env.REGION }} --name ${{ env.CLUSTER }}
 
+      - name: Test kubectl context
+        run: aws eks get-token --cluster-name ${{ env.CLUSTER }} --region ${{ env.REGION }} --output json
+
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f ./redis-id-service.yaml
