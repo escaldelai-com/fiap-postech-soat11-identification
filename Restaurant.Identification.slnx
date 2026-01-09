@@ -16,6 +16,9 @@
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/Solution Items/github-workflows/">
+    <File Path="build-develop.yml" />
+  </Folder>
   <Folder Name="/Solution Items/kubernetes/">
     <File Path="init-k8s.cmd" />
   </Folder>
