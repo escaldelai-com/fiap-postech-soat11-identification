@@ -8,15 +8,15 @@ on:
 permissions:
       id-token: write
       contents: read 
+env:
+  REGION: sa-east-1
+  ECR: 210450948776.dkr.ecr.sa-east-1.amazonaws.com
+  IMAGE: restaurante-identification
+  TAG: latest
+  CLUSTER: restaurante-eks-cluster
 jobs:
-  publish:
+  build-and-publish-to-ecr:
     runs-on: ubuntu-latest
-    env:
-      REGION: sa-east-1
-      ECR: 210450948776.dkr.ecr.sa-east-1.amazonaws.com
-      IMAGE: restaurante-identification
-      TAG: latest
-      CLUSTER: restaurante-eks-cluster
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,6 +49,15 @@ jobs:
 
       - name: Push image to ECR
         run: docker push ${{ env.ECR }}/${{ env.IMAGE }}:${{ env.TAG }}
+  apply-kubernetes-manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
+          aws-region: ${{ env.REGION }}
+          role-session-name: github-actions
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
