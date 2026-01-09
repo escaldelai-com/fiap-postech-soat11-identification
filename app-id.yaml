@@ -12,7 +12,8 @@ spec:
     spec:
       containers:
         - name: app-id
-          image: restaurant-identification:1.0.0
+          image: 210450948776.dkr.ecr.sa-east-1.amazonaws.com/restaurante-identification:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:

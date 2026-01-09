@@ -13,7 +13,6 @@ jobs:
     env:
       ECR_REGION: sa-east-1
       ECR_ACCOUNT_ID: 210450948776
-      ECR_REPOSITORY: soat11escaldelai-restaurante-ecr
       IMAGE_NAME: restaurant-identification
       KUBE_CLUSTER_NAME: restaurante-eks-cluster
     steps:
@@ -47,15 +46,13 @@ jobs:
         run: docker build --pull --file Dockerfile --tag ${{ env.IMAGE_NAME }}:latest .
 
       - name: Tag image for ECR
-        run: docker tag ${{ env.IMAGE_NAME }}:latest ${{ env.ECR_ACCOUNT_ID }}.dkr.ecr.${{ env.ECR_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+        run: docker tag ${{ env.IMAGE_NAME }}:latest ${{ env.ECR_ACCOUNT_ID }}.dkr.ecr.${{ env.ECR_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:latest
 
       - name: Push image to ECR
-        run: docker push ${{ env.ECR_ACCOUNT_ID }}.dkr.ecr.${{ env.ECR_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+        run: docker push ${{ env.ECR_ACCOUNT_ID }}.dkr.ecr.${{ env.ECR_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:latest
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
-        with:
-          version: '1.34.0'
 
       - name: Configure kubectl context
         run: aws eks update-kubeconfig --region ${{ env.ECR_REGION }} --name ${{ env.KUBE_CLUSTER_NAME }} --role-arn ${{ secrets.AWS_ROLE_GITHUB_ESCALDELAI_COM }}
