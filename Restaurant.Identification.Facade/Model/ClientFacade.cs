@@ -38,10 +38,10 @@ public class ClientFacade(
     /// <returns>
     /// EV: Lista de clientes gerada
     /// </returns>
-    public async Task<IEnumerable<ClientDto>> GetClientList(IEnumerable<string> ids)
+    public async Task<IEnumerable<ClientDto>> GetClientList(IEnumerable<string> id)
     {
-        return ids.Any()
-            ? await repo.GetList(ids)
+        return id.Any()
+            ? await repo.GetList(id)
             : await repo.GetList();
     }
 
@@ -55,10 +55,7 @@ public class ClientFacade(
     {
         var id = configuration["Client:noIdentifyId"];
 
-        if (string.IsNullOrEmpty(id))
-            return null;
-
-        return await repo.GetById(id);
+        return string.IsNullOrEmpty(id) ? null : await repo.GetById(id);
     }
 
     /// <summary>

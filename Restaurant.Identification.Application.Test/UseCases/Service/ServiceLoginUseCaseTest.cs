@@ -30,10 +30,10 @@ public class ServiceLoginUseCaseTest : TestBase
         var service = new ServiceDto
         {
             Id = login.client_id,
-            Name = faker.Random.Word(),
+            Name = Faker.Random.Word(),
             Secret = hash
         };
-        repo.Setup(r => r.Get(login.client_id!)).ReturnsAsync(service);
+        repo.Setup(r => r.GetById(login.client_id!)).ReturnsAsync(service);
         presenter.Setup(p => p.GetHash(login.client_secret!)).Returns(hash);
 
         // Act
@@ -102,7 +102,7 @@ public class ServiceLoginUseCaseTest : TestBase
             grant_type = "client_credentials",
             client_secret = secret
         };
-        repo.Setup(r => r.Get(login.client_id!)).ReturnsAsync(() => null!);
+        repo.Setup(r => r.GetById(login.client_id!)).ReturnsAsync(() => null!);
 
         // Act
         var result = await useCase.Login(login);
@@ -127,10 +127,10 @@ public class ServiceLoginUseCaseTest : TestBase
         var service = new ServiceDto
         {
             Id = login.client_id,
-            Name = faker.Random.Word(),
+            Name = Faker.Random.Word(),
             Secret = GetGuid()
         };
-        repo.Setup(r => r.Get(login.client_id!)).ReturnsAsync(() => null!);
+        repo.Setup(r => r.GetById(login.client_id!)).ReturnsAsync(() => null!);
         presenter.Setup(p => p.GetHash(login.client_secret!)).Returns("foo");
 
         // Act

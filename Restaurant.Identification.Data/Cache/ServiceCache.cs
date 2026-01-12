@@ -10,7 +10,7 @@ public class ServiceCache(
     IDatabase context) : IServiceCache
 {
 
-    public async Task<ServiceDto?> Get(string? serviceId)
+    public async Task<ServiceDto?> GetById(string? serviceId)
     {
         if (string.IsNullOrEmpty(serviceId))
             return null;
@@ -22,7 +22,7 @@ public class ServiceCache(
             : null;
     }
 
-    public async Task Set(ServiceDto service)
+    public async Task SetService(ServiceDto service)
     {
         if (string.IsNullOrEmpty(service.Id))
             return;
@@ -34,7 +34,8 @@ public class ServiceCache(
     }
 
 
-    private string GetKey(string? id) => $"service:{id}";
-
-
+    private static string GetKey(string? id)
+    {
+        return $"service:{id}";
+    }
 }

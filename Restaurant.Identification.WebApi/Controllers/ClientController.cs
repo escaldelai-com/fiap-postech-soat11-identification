@@ -26,7 +26,7 @@ public class ClientController(
     [HttpGet("list")]
     [Authorize(Claims.Client.GetList)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ClientDto>))]
-    public async Task<IActionResult> GetList([FromQuery]IEnumerable<string> id)
+    public async Task<IActionResult> GetList([FromQuery] IEnumerable<string> id)
     {
         var result = await facade.GetClientList(id);
 
@@ -37,33 +37,33 @@ public class ClientController(
 
     [HttpGet("cpf/{cpf}")]
     [Authorize(Claims.Client.GetIdentify)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(ClientDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ClientDto))]
     public async Task<IActionResult> GetIdentify(string cpf)
     {
         var result = await facade.GetClientIdentify(cpf);
 
-        return result != null 
+        return result != null
             ? Ok(result)
             : NotFound();
     }
 
     [HttpGet("id/{id}")]
     [Authorize(Claims.Client.GetById)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(ClientDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ClientDto))]
     public async Task<IActionResult> GetById(string id)
     {
         var result = await facade.GetById(id);
 
-        return result != null 
+        return result != null
             ? Ok(result)
             : NotFound();
     }
 
     [HttpPost]
     [Authorize(Claims.Client.Register)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(string))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
     public async Task<IActionResult> PostRegister([FromBody] ClientDto client)
     {
         var result = await facade.Register(client);

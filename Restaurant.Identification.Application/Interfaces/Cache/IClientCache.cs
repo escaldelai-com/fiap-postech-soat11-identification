@@ -9,6 +9,6 @@ public interface IClientCache
 
     Task<ClientDto?> GetById(string id);
 
-    Task Set(ClientDto? client);
+    Task SetClient(ClientDto? client);
 
 }

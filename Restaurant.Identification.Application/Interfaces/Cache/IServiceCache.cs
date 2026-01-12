@@ -5,8 +5,8 @@ namespace Restaurant.Identification.Application.Interfaces.Cache;
 public interface IServiceCache
 {
 
-    Task<ServiceDto?> Get(string? serviceId);
+    Task<ServiceDto?> GetById(string? serviceId);
 
-    Task Set(ServiceDto service);
+    Task SetService(ServiceDto service);
 
 }

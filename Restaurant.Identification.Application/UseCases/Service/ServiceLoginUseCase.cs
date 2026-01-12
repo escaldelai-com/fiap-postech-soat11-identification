@@ -18,17 +18,14 @@ public class ServiceLoginUseCase(
             .Test(loginDto?.grant_type == "client_credentials", "invalid grant_type")
             .Validate();
 
-        var service = await repo.Get(loginDto!.client_id!);
+        var service = await repo.GetById(loginDto!.client_id!);
 
         if (service == null)
             return null;
 
         var secret = presenter.GetHash(loginDto!.client_secret!);
 
-        if (service.Secret != secret)
-            return null;
-
-        return service;
+        return service.Secret != secret ? null : service;
     }
 
 }

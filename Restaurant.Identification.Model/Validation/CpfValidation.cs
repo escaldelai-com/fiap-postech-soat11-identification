@@ -1,9 +1,12 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Restaurant.Identification.Model;
 
 public static class CpfValidation
 {
+
+    private static readonly CultureInfo ptBR = new("pt-BR");
 
     public static Validator IsValidCpf(this Validator validator, string value)
     {
@@ -23,36 +26,30 @@ public static class CpfValidation
                 return false;
 
             for (int j = 0; j < 10; j++)
-                if (j.ToString().PadLeft(11, char.Parse(j.ToString())) == cpf)
+                if (j.ToString(ptBR).PadLeft(11, char.Parse(j.ToString(ptBR))) == cpf)
                     return false;
 
-            string tempCpf = cpf.Substring(0, 9);
-            int soma = 0;
+            var tempCpf = cpf[..9];
+            var soma = 0;
 
             for (int i = 0; i < 9; i++)
-                soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+                soma += int.Parse(tempCpf[i].ToString(ptBR), ptBR) * multiplicador1[i];
 
-            int resto = soma % 11;
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
+            var resto = soma % 11;
+            resto = resto < 2 ? 0 : 11 - resto;
 
-            string digito = resto.ToString();
-            tempCpf = tempCpf + digito;
+            var digito = resto.ToString(ptBR);
+            tempCpf += digito;
             soma = 0;
-            for (int i = 0; i < 10; i++)
-                soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+            for (var i = 0; i < 10; i++)
+                soma += int.Parse(tempCpf[i].ToString(ptBR), ptBR) * multiplicador2[i];
 
             resto = soma % 11;
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
+            resto = resto < 2 ? 0 : 11 - resto;
 
-            digito = digito + resto.ToString();
+            digito += resto.ToString(ptBR);
 
-            return cpf.EndsWith(digito);
+            return cpf.EndsWith(digito, StringComparison.Ordinal);
         }
         catch
         {

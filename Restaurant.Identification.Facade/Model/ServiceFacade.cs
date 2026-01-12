@@ -15,10 +15,7 @@ public class ServiceFacade(
     {
         var data = await useCase.Login(login);
 
-        if (data == null)
-            throw new NotAuthorizedException();
-
-        return tokenCreate.Create(data);
+        return data == null ? throw new NotAuthorizedException() : tokenCreate.Create(data);
     }
 
 }

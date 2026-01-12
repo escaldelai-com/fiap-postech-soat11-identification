@@ -15,14 +15,14 @@ public class ClientGetByCpfUseCaseTest : TestBase
     {
         //Arrange
         var repo = new Mock<IClientRepository>();
-        var cpf = faker.Person.Cpf();
+        var cpf = Faker.Person.Cpf();
         var nakedCpf = cpf.Replace(".", "").Replace("-", "");
         var client = new ClientDto
         {
-            Id = faker.Random.Guid().ToString(),
-            Nome = faker.Person.FullName,
+            Id = Faker.Random.Guid().ToString(),
+            Nome = Faker.Person.FullName,
             CPF = cpf,
-            Email = faker.Person.Email
+            Email = Faker.Person.Email
         };
         repo.Setup(x => x.GetByCpf(nakedCpf)).ReturnsAsync(client);
         var useCase = new ClientGetByCpfUseCase(repo.Object);

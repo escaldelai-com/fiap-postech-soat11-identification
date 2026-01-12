@@ -14,7 +14,7 @@ public class ClientRepository(
     IMongoDatabase context) : IClientRepository
 {
 
-    private readonly IMongoCollection<ClientData> collection = 
+    private readonly IMongoCollection<ClientData> collection =
         context.GetCollection<ClientData>("client");
 
 
@@ -30,7 +30,7 @@ public class ClientRepository(
             .FirstOrDefaultAsync();
 
         dto = mapper.Map<ClientDto>(data);
-        await cache.Set(dto);
+        await cache.SetClient(dto);
 
         return dto;
     }
@@ -47,7 +47,7 @@ public class ClientRepository(
             .FirstOrDefaultAsync();
 
         dto = mapper.Map<ClientDto>(data);
-        await cache.Set(dto);
+        await cache.SetClient(dto);
 
         return dto;
     }

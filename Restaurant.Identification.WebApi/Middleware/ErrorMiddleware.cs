@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Restaurant.Identification.WebApi;
 
-public class ErrorMiddleware(
+public partial class ErrorMiddleware(
     RequestDelegate next,
     ILogger<ErrorMiddleware> logger)
 {
@@ -32,9 +32,9 @@ public class ErrorMiddleware(
         };
 
         if (status == (int)HttpStatusCode.InternalServerError)
-            logger.LogError(exception, "Unhandled exception");
+            LogUnhandledException(logger, exception);
         else
-            logger.LogWarning(exception, "Handled exception mapped to {Status}", status);
+            LogHandledException(logger, status, exception);
 
         var problem = new ProblemDetails
         {
@@ -49,11 +49,19 @@ public class ErrorMiddleware(
         await context.Response.WriteAsJsonAsync(problem);
     }
 
+    [LoggerMessage(LogLevel.Error, "Unhandled exception")]
+    private static partial void LogUnhandledException(ILogger logger, Exception exception);
+
+    [LoggerMessage(LogLevel.Warning, "Handled exception mapped to {status}")]
+    private static partial void LogHandledException(ILogger logger, int status, Exception exception);
+
 }
 
 
 public static class ErrorMiddlewareExtensions
 {
     public static IApplicationBuilder UseErrorHandler(this IApplicationBuilder app)
-        => app.UseMiddleware<ErrorMiddleware>();
+    {
+        return app.UseMiddleware<ErrorMiddleware>();
+    }
 }

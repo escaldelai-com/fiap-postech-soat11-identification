@@ -19,13 +19,13 @@ public class ClientRegisterUseCaseTest : TestBase
         var repo = new Mock<IClientRepository>();
         var getByCpfUseCase = new Mock<IClientGetByCpfUseCase>();
         var id = Guid.NewGuid().ToString("n");
-        var cpf = faker.Person.Cpf();
+        var cpf = Faker.Person.Cpf();
         var nakedCpf = GetNakedCpf(cpf);
         var clientDto = new ClientDto
         {
-            Nome = faker.Name.FullName(),
+            Nome = Faker.Name.FullName(),
             CPF = cpf,
-            Email = faker.Internet.Email()
+            Email = Faker.Internet.Email()
         };
         repo.Setup(r => r.Save(clientDto)).ReturnsAsync(id);
         getByCpfUseCase.Setup(x => x.GetClientIdentify(cpf)).ReturnsAsync((ClientDto?)null);
@@ -47,13 +47,13 @@ public class ClientRegisterUseCaseTest : TestBase
         var repo = new Mock<IClientRepository>();
         var getByCpfUseCase = new Mock<IClientGetByCpfUseCase>();
         var id = Guid.NewGuid().ToString("n");
-        var cpf = faker.Person.Cpf();
+        var cpf = Faker.Person.Cpf();
         var clientDto = new ClientDto
         {
             Id = id,
-            Nome = faker.Name.FullName(),
+            Nome = Faker.Name.FullName(),
             CPF = cpf,
-            Email = faker.Internet.Email()
+            Email = Faker.Internet.Email()
         };
         getByCpfUseCase.Setup(x => x.GetClientIdentify(cpf)).ReturnsAsync(clientDto);
         var useCase = new ClientRegisterUseCase(getByCpfUseCase.Object, repo.Object);

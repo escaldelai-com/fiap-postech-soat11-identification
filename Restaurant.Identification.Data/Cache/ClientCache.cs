@@ -3,6 +3,7 @@ using Restaurant.Identification.Application.DTO;
 using Restaurant.Identification.Application.Interfaces.Cache;
 using Restaurant.Identification.Application.Interfaces.Presenter;
 using StackExchange.Redis;
+using System.Globalization;
 
 namespace Restaurant.Identification.Data.Cache;
 
@@ -12,8 +13,10 @@ public class ClientCache(
     IDatabase context) : IClientCache
 {
 
+    private static readonly CultureInfo ptBR = new("pt-BR");
+
     private readonly TimeSpan expiration =
-        TimeSpan.Parse(configuration["Client:CacheExpiration"] ?? "02:00:00");
+        TimeSpan.Parse(configuration["Client:CacheExpiration"] ?? "02:00:00", ptBR);
 
 
     public async Task<ClientDto?> GetByCpf(string cpf)
@@ -34,7 +37,7 @@ public class ClientCache(
             : null;
     }
 
-    public async Task Set(ClientDto? client)
+    public async Task SetClient(ClientDto? client)
     {
         if (client == null)
             return;
@@ -59,6 +62,8 @@ public class ClientCache(
 
 
 
-    private string GetKey(string id) => $"client:{id}";
-
+    private static string GetKey(string id)
+    {
+        return $"client:{id}";
+    }
 }

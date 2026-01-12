@@ -13,6 +13,7 @@
     <Project Path="Restaurant.Identification.Model/Restaurant.Identification.Model.csproj" Id="5f1ec88f-3352-4c45-a05e-1384b84255ff" />
   </Folder>
   <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>

@@ -4,16 +4,17 @@ namespace Restaurant.Identification.Application.Test;
 
 public abstract class TestBase
 {
+    protected Faker Faker { get; } = new("pt_BR");
 
-    protected Faker faker = new("pt_BR");
-
-    protected string GetNakedCpf(string cpf)
+    protected static string GetNakedCpf(string cpf)
     {
         return cpf
             .Replace(".", "")
             .Replace("-", "");
     }
 
-    protected string GetGuid() => Guid.NewGuid().ToString("n");
-
+    protected static string GetGuid()
+    {
+        return Guid.NewGuid().ToString("n");
+    }
 }

@@ -11,7 +11,7 @@ public class CpfTest : TestBase
     public void CPF_Ok_With_Symbols()
     {
         //Arrange
-        var number = faker.Person.Cpf();
+        var number = Faker.Person.Cpf();
         var nakedNumber = number
             .Trim()
             .Replace(".", "")
@@ -29,7 +29,7 @@ public class CpfTest : TestBase
     public void CPF_Ok_Without_Symbols()
     {
         //Arrange
-        var number = faker.Person.Cpf(false);
+        var number = Faker.Person.Cpf(false);
 
         // Act
         var cpf = new CPF(number);

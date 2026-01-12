@@ -2,6 +2,7 @@
 using Restaurant.Identification.Application.DTO;
 using Restaurant.Identification.Application.Interfaces.WebApi;
 using Restaurant.Identification.Model;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -12,11 +13,13 @@ public class TokenCreateService(
     IConfiguration config) : ITokenCreateService
 {
 
+    private static readonly CultureInfo ptBR = new("pt-BR");
+
     private readonly byte[] key = Convert.FromBase64String(config["Security:PrivateKey"]
         ?? throw new ArgumentNullException("Security:PrivateKey"));
 
     private readonly TimeSpan expireTime = TimeSpan.Parse(config["Security:ExpireTime"]
-        ?? throw new ArgumentNullException("Security:ExpireTime"));
+        ?? throw new ArgumentNullException("Security:ExpireTime"), ptBR);
 
     private readonly string issuer = config["Security:Issuer"]
         ?? throw new ArgumentNullException("Security:Issuer");
@@ -45,12 +48,13 @@ public class TokenCreateService(
 
     private SecurityTokenDescriptor GetDescriptor(string name, IEnumerable<string> audiences, IEnumerable<string> roles)
     {
-        var desc = new SecurityTokenDescriptor();
-
-        desc.Expires = DateTime.UtcNow.Add(expireTime);
-        desc.Issuer = issuer;
-        desc.SigningCredentials = new SigningCredentials(GetKey(), SecurityAlgorithms.RsaSha256);
-        desc.Subject = new ClaimsIdentity();
+        var desc = new SecurityTokenDescriptor
+        {
+            Expires = DateTime.UtcNow.Add(expireTime),
+            Issuer = issuer,
+            SigningCredentials = new SigningCredentials(GetKey(), SecurityAlgorithms.RsaSha256),
+            Subject = new ClaimsIdentity()
+        };
         desc.Subject.AddClaim(new Claim(ClaimTypes.Name, name));
         desc.Subject.AddClaims(roles.Distinct().Select(x => new Claim(ClaimTypes.Role, x)));
 
